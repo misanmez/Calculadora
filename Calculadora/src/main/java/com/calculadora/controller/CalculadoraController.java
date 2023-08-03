@@ -4,11 +4,14 @@ import java.math.BigDecimal;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.calculadora.exception.InvalidOperatorException;
+import com.calculadora.model.BinaryOperation;
 import com.calculadora.model.OperacionRequest;
 import com.calculadora.service.CalculadoraService;
 
@@ -33,5 +36,30 @@ public class CalculadoraController {
     public ResponseEntity<BigDecimal> restar(@RequestBody OperacionRequest request) {
         BigDecimal result = calculadoraService.restar(request);
         return ResponseEntity.ok(result);
+    }
+    
+    @PostMapping("/operacion/{operador}")
+    public ResponseEntity<BigDecimal> calcular(
+            @PathVariable String operador,
+            @RequestBody OperacionRequest request) {
+        BinaryOperation operacion = getOperacion(operador);
+        if (operacion == null) {
+            throw new InvalidOperatorException("Operador no válido: " + operacion);
+        }
+
+        BigDecimal result = calculadoraService.realizarOperacion(request, operacion);
+        return ResponseEntity.ok(result);
+    }
+    
+    public BinaryOperation getOperacion(String operador) {
+        switch (operador) {
+            case "sumar":
+                return (a, b) -> a.add(b);
+            case "restar":
+                return (a, b) -> a.subtract(b);
+            // Agrega aquí más casos para otras operaciones
+            default:
+                return null;
+        }
     }
 }

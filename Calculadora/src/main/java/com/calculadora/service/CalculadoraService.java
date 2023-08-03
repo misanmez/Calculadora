@@ -5,6 +5,7 @@ import java.math.BigDecimal;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.calculadora.model.BinaryOperation;
 import com.calculadora.model.OperacionRequest;
 import com.calculadora.trace.Tracer;
 
@@ -40,4 +41,15 @@ public class CalculadoraService {
 
         return result;
     }
+
+	public BigDecimal realizarOperacion(OperacionRequest request, BinaryOperation operacion) {
+		BigDecimal operando1 = request.getOperando1();
+        BigDecimal operando2 = request.getOperando2();
+
+        BigDecimal result = operacion.calcular(operando1, operando2);
+
+        tracer.trace(result);
+        
+        return result;
+	}
 }

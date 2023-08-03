@@ -11,5 +11,9 @@ public class Calculadora {
     public BigDecimal resta(BigDecimal a, BigDecimal b) {
         return a.subtract(b);
     }
+    
+    public BigDecimal realizarOperacion(BigDecimal a, BigDecimal b, BinaryOperation operacion) {
+        return operacion.calcular(a, b);
+    }
 
 }

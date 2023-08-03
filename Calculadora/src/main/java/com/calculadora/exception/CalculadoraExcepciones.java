@@ -20,9 +20,15 @@ public class CalculadoraExcepciones {
     
     @ExceptionHandler(HttpMessageNotReadableException.class)
     public ResponseEntity<String> handleMessageNotReadableException(Exception ex) {
-      // some handling
       tracer.trace("Error en los párametros de la request: " + ex.getMessage());
     	
       return ResponseEntity.badRequest().body("Error en los párametros de la request: " + ex.getMessage());
+    }
+    
+    @ExceptionHandler(InvalidOperatorException.class)
+    public ResponseEntity<String> handleInvalidOperandException(InvalidOperatorException ex) {
+    	tracer.trace("Operación no encontrada: " + ex.getMessage());
+    	
+    	return ResponseEntity.badRequest().body("Operación no encontrada: " + ex.getMessage());
     }
 }
