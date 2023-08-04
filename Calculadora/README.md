@@ -4,7 +4,7 @@ Este proyecto es un microservicio que expone un API RESTful para realizar operac
 
 ## Requisitos Técnicos
 
-- Java 11 o versiones superiores.
+- Java 17
 - Maven como manejador de dependencias.
 - Git para el control de versiones.
 - OpenAPI para la definición del API RESTful.

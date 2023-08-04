@@ -1,55 +1,52 @@
 package com.calculadora.service;
 
 import java.math.BigDecimal;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.calculadora.model.BinaryOperation;
+import com.calculadora.dto.ResultResponse;
+import com.calculadora.exception.InvalidOperatorException;
+import com.calculadora.exception.InvalidParameterException;
 import com.calculadora.model.OperacionRequest;
-import com.calculadora.trace.Tracer;
+
+import io.corp.calculator.TracerImpl;
 
 
 @Service
 public class CalculadoraService {
 
-	private final Tracer tracer;
+	private final TracerImpl tracer;
+	private final Map<String, BinaryOperation> operaciones;
 
-    @Autowired
-    public CalculadoraService(Tracer tracer) {
-        this.tracer = tracer;
+	@Autowired
+    public CalculadoraService(BinaryOperation[] binaryOperations, TracerImpl tracer) {
+		this.tracer = tracer;
+		operaciones = new HashMap<>();
+        for (BinaryOperation operation : binaryOperations) {
+        	operaciones.put(operation.getOperator(), operation);
+        }
     }
 
-    public BigDecimal sumar(OperacionRequest request) {
-    	BigDecimal operando1 = request.getOperando1();
-        BigDecimal operando2 = request.getOperando2();
+	public ResultResponse performOperation(String operator, OperacionRequest request) {
+        BinaryOperation operation = operaciones.get(operator);
+        if (operation == null) {
+            throw new InvalidOperatorException("Operador no válido: " + operator);
+        }
 
-        BigDecimal result = operando1.add(operando2);
+        BigDecimal operand1 = request.getOperando1();
+        BigDecimal operand2 = request.getOperando2();
 
-        tracer.trace(result);
+        if (operand1 == null || operand2 == null) {
+            throw new InvalidParameterException("Ambos operandos deben ser proporcionados");
+        }
 
-        return result;
-    }
-
-    public BigDecimal restar(OperacionRequest request) {
-    	BigDecimal operando1 = request.getOperando1();
-        BigDecimal operando2 = request.getOperando2();
-
-        BigDecimal result = operando1.subtract(operando2);
-   
-        tracer.trace(result);
-
-        return result;
-    }
-
-	public BigDecimal realizarOperacion(OperacionRequest request, BinaryOperation operacion) {
-		BigDecimal operando1 = request.getOperando1();
-        BigDecimal operando2 = request.getOperando2();
-
-        BigDecimal result = operacion.calcular(operando1, operando2);
+        BigDecimal result = operation.calcular(operand1, operand2);
 
         tracer.trace(result);
         
-        return result;
-	}
+        return new ResultResponse(result);
+    }
 }

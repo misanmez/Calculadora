@@ -1,8 +1,10 @@
-package com.calculadora.model;
+package com.calculadora.service;
 
 import java.math.BigDecimal;
 
-@FunctionalInterface
 public interface BinaryOperation {
+	
 	BigDecimal calcular(BigDecimal a, BigDecimal b);
+	
+	String getOperator();
 }
