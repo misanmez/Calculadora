@@ -1,6 +1,6 @@
 # Microservicio Calculadora
 
-Este proyecto es un microservicio que expone un API RESTful para realizar operaciones aritméticas. Actualmente, soporta sumas y restas de dos números. El microservicio utiliza Spring Boot y está desarrollado en Java 11.
+Este proyecto es un microservicio que expone un API RESTful para realizar operaciones aritméticas. Actualmente, soporta sumas y restas de dos números. El microservicio utiliza Spring Boot y está desarrollado en Java 17.
 
 ## Requisitos Técnicos
 
@@ -21,10 +21,11 @@ El proyecto tiene la siguiente estructura de directorios:
 │   │   │   └───com
 │   │   │       └───calculadora
 │   │   │           ├───controller
+│   │   │           ├───dto
 │   │   │           ├───exception
+│   │   │           ├───lib
 │   │   │           ├───model
-│   │   │           ├───service
-│   │   │           └───trace
+│   │   │           └───service
 │   │   └───resources
 │   │       ├───static
 │   │       └───templates
@@ -32,6 +33,10 @@ El proyecto tiene la siguiente estructura de directorios:
 │       ├───java
 │       │   └───com
 │       │       └───calculadora
+│       │           ├───controller
+│       │           ├───dto
+│       │           ├───exceptions
+│       │           └───service
 │       └───resources
 
 ```
@@ -46,20 +51,19 @@ El proyecto utiliza las siguientes dependencias principales:
 - Spring Web (para el desarrollo de la API RESTful)
 - OpenAPI (para la documentación del API)
 - JUnit5 (para las pruebas unitarias)
+- Mockito
+- Lombok
+- Librería Tracer
 
 ## Funcionalidades Implementadas y Alcance del Servicio
 
-El microservicio permite realizar sumas. Para realizar una suma, se debe hacer una solicitud POST a la URL `/calculadora/sumar`. Los operandos deben ser proporcionados en el cuerpo de la solicitud en formato JSON.
-
-El microservicio permite realizar restas. Para realizar una suma, se debe hacer una solicitud POST a la URL `/calculadora/restar`. Los operandos deben ser proporcionados en el cuerpo de la solicitud en formato JSON.
-
-El microservicio permite realizar sumas y restas de dos números. Para realizar una operación, se debe hacer una solicitud POST a la URL `/calculadora/operacion/{operador}`, donde `{operador}` puede ser "suma" para suma o "restar" para resta. Los operandos deben ser proporcionados en el cuerpo de la solicitud en formato JSON.
+El microservicio permite realizar sumas y restas de dos números. Para realizar una operación, se debe hacer una solicitud POST a la URL `/calculadora/{operador}`, donde `{operador}` puede ser "sumar" para suma o "restar" para resta. Los operandos deben ser proporcionados en el cuerpo de la solicitud en formato JSON.
 
 
 
 ## Procedimientos de Compilación y Ejecución
 
-Para compilar y ejecutar el microservicio, asegúrate de tener instalado Java 11 y Maven en tu sistema. Luego, sigue estos pasos:
+Para compilar y ejecutar el microservicio, asegúrate de tener instalado Java 17 y Maven en tu sistema. Luego, sigue estos pasos:
 
 1. Clona el repositorio: `git clone <url-repositorio>`
 2. Ve al directorio del proyecto: `cd calculadora`
@@ -67,6 +71,21 @@ Para compilar y ejecutar el microservicio, asegúrate de tener instalado Java 11
 4. Ejecuta el microservicio: `java -jar target/calculadora-0.0.1-SNAPSHOT.jar`
 
 El microservicio estará disponible en `http://localhost:8080`.
+
+## Instalación del Tracer
+
+1. Descarga el archivo jar del Tracer desde la ubicación apropiada.
+2. Inslatar la libreria en el repositorio local usando la siguiente instrucción: `mvn install:install-file -Dfile=path/to/tracer.jar -DgroupId=com.example -DartifactId=tracer -Dversion=1.0 -Dpackaging=jar`
+3. Agregar el jar como dependencia en el proyecto incluyendo en el pom.xml las siguientes líneas: 
+
+``` bash
+<dependency>
+    <groupId>com.example</groupId>
+    <artifactId>tracer</artifactId>
+    <version>1.0</version>
+</dependency>
+
+```
 
 ## Ejemplos de Llamadas al API
 

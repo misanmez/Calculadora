@@ -82,7 +82,7 @@ public class CalculadoraControllerTest {
         verify(calculadoraService).performOperation(operator, request);
     }
 
-	private void extracted(String operator, OperacionRequest request) {
+	private void extracted(String operator, OperacionRequest request) throws InvalidOperatorException, InvalidParameterException {
 		calculadoraController.calculate(operator, request);
 	}
 }

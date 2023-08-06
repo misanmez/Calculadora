@@ -1,17 +1,16 @@
 package com.calculadora.exceptions;
 
-import static org.junit.Assert.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.mock.http.MockHttpInputMessage;
 
 import com.calculadora.exception.CalculadoraExcepciones;
+import com.calculadora.exception.ExceptionInfo;
 import com.calculadora.exception.InvalidOperatorException;
 import com.calculadora.exception.InvalidParameterException;
 
@@ -31,46 +30,46 @@ public class CalculadoraExcepcionesTest {
     @Test
     public void testHandleMessageNotReadableException() {
         // Arrange
-        String errorMessage = "Error en los párametros de la request";
+        String errorMessage = "Error en la llamada al servicio";
         Exception ex = new HttpMessageNotReadableException(errorMessage,
                 new MockHttpInputMessage(errorMessage.getBytes()));
 
         // Act
-        ResponseEntity<String> response = calculadoraExcepciones.handleMessageNotReadableException(ex);
+        ExceptionInfo response = calculadoraExcepciones.handleMessageNotReadableException(ex);
 
         // Assert
-        assertEquals(400, response.getStatusCode().value());
-        assertTrue(response.getBody().toLowerCase().contains(errorMessage.toLowerCase()));
+        assertEquals(response.getErrorCode(), CalculadoraExcepciones.INVALID_PARAM);
+        assertEquals("Error en los párametros de la request: " + errorMessage, response.getMessage());
         verify(tracer).trace("Error en los párametros de la request: " + errorMessage);
     }
     
     @Test
     public void testHandleInvalidOperandException() {
         // Arrange
-        String errorMessage = "Operación no encontrada: Operador inválido";
-        InvalidOperatorException ex = new InvalidOperatorException("Operador inválido");
+        String errorMessage = "Operador inválido";
+        InvalidOperatorException ex = new InvalidOperatorException(errorMessage);
 
         // Act
-        ResponseEntity<String> response = calculadoraExcepciones.handleInvalidOperandException(ex);
+        ExceptionInfo response = calculadoraExcepciones.handleInvalidOperandException(ex);
 
         // Assert
-        assertEquals(400, response.getStatusCode().value());
-        assertEquals(errorMessage, response.getBody());
-        verify(tracer).trace("Operación no encontrada: Operador inválido");
+        assertEquals(response.getErrorCode(), CalculadoraExcepciones.INVALID_OPERATION);
+        assertEquals("Operación no encontrada: " + errorMessage, response.getMessage());
+        verify(tracer).trace("Operación no encontrada: " + errorMessage);
     }
 
     @Test
     public void testHandleInvalidParamException() {
         // Arrange
-        String errorMessage = "Parámetro incorrecto o inválido: Valor negativo no permitido";
-        InvalidParameterException ex = new InvalidParameterException("Valor negativo no permitido");
+        String errorMessage = "Valor negativo no permitido";
+        InvalidParameterException ex = new InvalidParameterException(errorMessage);
 
         // Act
-        ResponseEntity<String> response = calculadoraExcepciones.handleInvalidParamException(ex);
-
+        ExceptionInfo response = calculadoraExcepciones.handleInvalidParamException(ex);
+        
         // Assert
-        assertEquals(400, response.getStatusCode().value());
-        assertEquals(errorMessage, response.getBody());
-        verify(tracer).trace("Parámetro incorrecto o inválido: Valor negativo no permitido");
+        assertEquals(response.getErrorCode(), CalculadoraExcepciones.INVALID_PARAM);
+        assertEquals("Parámetro incorrecto o inválido: " + errorMessage, response.getMessage());
+        verify(tracer).trace("Parámetro incorrecto o inválido: " + errorMessage);
     }
 }

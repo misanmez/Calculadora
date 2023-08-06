@@ -30,10 +30,10 @@ public class CalculadoraService {
         }
     }
 
-	public ResultResponse performOperation(String operator, OperacionRequest request) {
+	public ResultResponse performOperation(String operator, OperacionRequest request) throws InvalidParameterException, InvalidOperatorException {
         BinaryOperation operation = operaciones.get(operator);
         if (operation == null) {
-            throw new InvalidOperatorException("Operador no válido: " + operator);
+            throw new InvalidOperatorException(operator);
         }
 
         BigDecimal operand1 = request.getOperando1();

@@ -40,7 +40,7 @@ public class CalculadoraServiceTest {
     }
 
     @Test
-    public void testPerformOperation_Addition() {
+    public void testPerformOperation_Addition() throws InvalidParameterException, InvalidOperatorException {
         // Arrange
         String operator = "sumar";
         OperacionRequest request = new OperacionRequest(new BigDecimal("10"), new BigDecimal("5"));
@@ -53,7 +53,7 @@ public class CalculadoraServiceTest {
     }
 
     @Test
-    public void testPerformOperation_Subtraction() {
+    public void testPerformOperation_Subtraction() throws InvalidParameterException, InvalidOperatorException {
         // Arrange
         String operator = "restar";
         OperacionRequest request = new OperacionRequest(new BigDecimal("10"), new BigDecimal("5"));
