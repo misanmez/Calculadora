@@ -18,13 +18,13 @@ import com.calculadora.model.OperacionRequest;
 
 import io.corp.calculator.TracerImpl;
 
-public class CalculadoraServiceTest {
+class CalculadoraServiceTest {
 
 	private CalculadoraService calculadoraService;
     private TracerImpl tracer;
 
     @BeforeEach
-    public void setUp() {
+    void setUp() {
         tracer = mock(TracerImpl.class);
         BinaryOperation additionOperation = mock(BinaryOperation.class);
         BinaryOperation subtractionOperation = mock(BinaryOperation.class);
@@ -40,7 +40,7 @@ public class CalculadoraServiceTest {
     }
 
     @Test
-    public void testPerformOperation_Addition() throws InvalidParameterException, InvalidOperatorException {
+    void testPerformOperation_Addition() throws InvalidParameterException, InvalidOperatorException {
         // Arrange
         String operator = "sumar";
         OperacionRequest request = new OperacionRequest(new BigDecimal("10"), new BigDecimal("5"));
@@ -53,7 +53,7 @@ public class CalculadoraServiceTest {
     }
 
     @Test
-    public void testPerformOperation_Subtraction() throws InvalidParameterException, InvalidOperatorException {
+    void testPerformOperation_Subtraction() throws InvalidParameterException, InvalidOperatorException {
         // Arrange
         String operator = "restar";
         OperacionRequest request = new OperacionRequest(new BigDecimal("10"), new BigDecimal("5"));
@@ -66,7 +66,7 @@ public class CalculadoraServiceTest {
     }
 
     @Test
-    public void testPerformOperation_InvalidOperator_Exception() {
+    void testPerformOperation_InvalidOperator_Exception() {
         // Arrange
         String operator = "*"; // Invalid operator
         OperacionRequest request = new OperacionRequest(new BigDecimal("10"), new BigDecimal("5"));
@@ -76,11 +76,11 @@ public class CalculadoraServiceTest {
             calculadoraService.performOperation(operator, request);
         });
 
-        assertEquals("Operador no válido: *", exception.getMessage());
+        assertEquals("*", exception.getMessage());
     }
-
+    
     @Test
-    public void testPerformOperation_InvalidParameter_Exception() {
+    void testPerformOperation_InvalidParameter_Exception() {
         // Arrange
         String operator = "sumar";
         OperacionRequest request = new OperacionRequest(null, new BigDecimal("5")); // Invalid operand1

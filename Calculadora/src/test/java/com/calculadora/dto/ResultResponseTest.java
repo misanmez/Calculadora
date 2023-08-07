@@ -6,10 +6,10 @@ import java.math.BigDecimal;
 
 import org.junit.jupiter.api.Test;
 
-public class ResultResponseTest {
+class ResultResponseTest {
 
 	@Test
-    public void testResultResponse_GetAndSet() {
+    void testResultResponse_GetAndSet() {
         // Arrange
         BigDecimal result = new BigDecimal("15");
         ResultResponse response = new ResultResponse();

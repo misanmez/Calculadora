@@ -16,19 +16,19 @@ import com.calculadora.exception.InvalidParameterException;
 
 import io.corp.calculator.TracerImpl;
 
-public class CalculadoraExcepcionesTest {
+class CalculadoraExcepcionesTest {
 
     private CalculadoraExcepciones calculadoraExcepciones;
     private TracerImpl tracer;
 
     @BeforeEach
-    public void setUp() {
+    void setUp() {
         tracer = mock(TracerImpl.class);
         calculadoraExcepciones = new CalculadoraExcepciones(tracer);
     }
 
     @Test
-    public void testHandleMessageNotReadableException() {
+    void testHandleMessageNotReadableException() {
         // Arrange
         String errorMessage = "Error en la llamada al servicio";
         Exception ex = new HttpMessageNotReadableException(errorMessage,
@@ -38,13 +38,13 @@ public class CalculadoraExcepcionesTest {
         ExceptionInfo response = calculadoraExcepciones.handleMessageNotReadableException(ex);
 
         // Assert
-        assertEquals(response.getErrorCode(), CalculadoraExcepciones.INVALID_PARAM);
+        assertEquals(CalculadoraExcepciones.INVALID_PARAM, response.getErrorCode());
         assertEquals("Error en los párametros de la request: " + errorMessage, response.getMessage());
         verify(tracer).trace("Error en los párametros de la request: " + errorMessage);
     }
-    
+
     @Test
-    public void testHandleInvalidOperandException() {
+    void testHandleInvalidOperandException() {
         // Arrange
         String errorMessage = "Operador inválido";
         InvalidOperatorException ex = new InvalidOperatorException(errorMessage);
@@ -53,13 +53,13 @@ public class CalculadoraExcepcionesTest {
         ExceptionInfo response = calculadoraExcepciones.handleInvalidOperandException(ex);
 
         // Assert
-        assertEquals(response.getErrorCode(), CalculadoraExcepciones.INVALID_OPERATION);
+        assertEquals(CalculadoraExcepciones.INVALID_OPERATION, response.getErrorCode());
         assertEquals("Operación no encontrada: " + errorMessage, response.getMessage());
         verify(tracer).trace("Operación no encontrada: " + errorMessage);
     }
 
     @Test
-    public void testHandleInvalidParamException() {
+    void testHandleInvalidParamException() {
         // Arrange
         String errorMessage = "Valor negativo no permitido";
         InvalidParameterException ex = new InvalidParameterException(errorMessage);
@@ -68,7 +68,7 @@ public class CalculadoraExcepcionesTest {
         ExceptionInfo response = calculadoraExcepciones.handleInvalidParamException(ex);
         
         // Assert
-        assertEquals(response.getErrorCode(), CalculadoraExcepciones.INVALID_PARAM);
+        assertEquals(CalculadoraExcepciones.INVALID_PARAM, response.getErrorCode());
         assertEquals("Parámetro incorrecto o inválido: " + errorMessage, response.getMessage());
         verify(tracer).trace("Parámetro incorrecto o inválido: " + errorMessage);
     }

@@ -1,8 +1,8 @@
 package com.calculadora.controller;
 
-import static org.junit.Assert.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -19,19 +19,19 @@ import com.calculadora.exception.*;
 import com.calculadora.model.OperacionRequest;
 import com.calculadora.service.CalculadoraService;
 
-public class CalculadoraControllerTest {
+class CalculadoraControllerTest {
 
 	private CalculadoraService calculadoraService;
     private CalculadoraController calculadoraController;
 
     @BeforeEach
-    public void setUp() {
+    void setUp() {
         calculadoraService = mock(CalculadoraService.class);
         calculadoraController = new CalculadoraController(calculadoraService);
     }
 
     @Test
-    public void testCalculate_Addition_Success() throws InvalidOperatorException, InvalidParameterException {
+    void testCalculate_Addition_Success() throws InvalidOperatorException, InvalidParameterException {
         // Arrange
         String operator = "sumar";
         BigDecimal operand1 = new BigDecimal("10");
@@ -53,7 +53,7 @@ public class CalculadoraControllerTest {
     }
 
     @Test
-    public void testCalculate_InvalidOperator_Exception() throws InvalidOperatorException, InvalidParameterException {
+    void testCalculate_InvalidOperator_Exception() throws InvalidOperatorException, InvalidParameterException {
         // Arrange
         String operator = "otro"; // Invalid operator
         OperacionRequest request = new OperacionRequest(new BigDecimal("10"), new BigDecimal("5"));
@@ -68,7 +68,7 @@ public class CalculadoraControllerTest {
     }
 
     @Test
-    public void testCalculate_InvalidParameter_Exception() throws InvalidOperatorException, InvalidParameterException {
+    void testCalculate_InvalidParameter_Exception() throws InvalidOperatorException, InvalidParameterException {
         // Arrange
         String operator = "sumar";
         OperacionRequest request = new OperacionRequest(new BigDecimal("10"), null); // Invalid parameter
