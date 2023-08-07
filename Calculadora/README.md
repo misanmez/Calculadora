@@ -75,7 +75,8 @@ El microservicio estará disponible en `http://localhost:8080`.
 ## Instalación del Tracer
 
 1. Descarga el archivo jar del Tracer desde la ubicación apropiada.
-2. Inslatar la libreria en el repositorio local usando la siguiente instrucción: `mvn install:install-file -Dfile=path/to/tracer.jar -DgroupId=com.example -DartifactId=tracer -Dversion=1.0 -Dpackaging=jar`
+2. Abrir una linea de comandos desde la ubicación del jar descargado.
+2. Instalar la libreria en el repositorio local usando la siguiente instrucción: `mvn install:install-file -Dfile=tracer-1.0.0.jar -Djavadoc=tracer-1.0.0-javadoc.jar -Dsources=tracer-1.0.0-sources.jar`
 3. Agregar el jar como dependencia en el proyecto incluyendo en el pom.xml las siguientes líneas: 
 
 ``` bash
